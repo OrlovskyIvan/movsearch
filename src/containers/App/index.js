@@ -32,8 +32,6 @@ class App extends Component {
                         <Navigation/>
                     </div>
 
-                    <hr/>
-
                     <Switch>
                         <Route exact path="/" component={PopularMovies}/>
                         <Route path='/login' component={MovieDBAuthentification} />

@@ -3,6 +3,7 @@ import { FETCHING_POPULAR_MOVIES, DATA_RECEIVED, SAVE_FETCHED_POPULAR_FILMS } fr
 const initialState = {
     fetchingPopularMovies: false,
     dataReceived: false,
+    basePosterUrl: "https://image.tmdb.org/t/p/original",
     currentFetchedPopularFilmsArray: []
 }
 

@@ -45,11 +45,29 @@ class PopularMovies extends Component {
 
     render() {
 
-        let { massOfCurrentFetchedPopularFilms } = this.props.popularMovies;
+        /* Отрисовываем фильмы */
+        let { basePosterUrl, currentFetchedPopularFilmsArray } = this.props.popularMovies,
+            popularMoviesTemplate = [];
+
+        popularMoviesTemplate = currentFetchedPopularFilmsArray.map((currentValue, index) => {
+
+            const movieDataObj = {};
+
+            movieDataObj.id = currentValue.id
+            movieDataObj.title = currentValue.original_title
+            movieDataObj.posterUrl = `${basePosterUrl}${currentValue.poster_path}`
+            movieDataObj.genres_id = currentValue.genre_ids
+            movieDataObj.caption = currentValue.overview
+            movieDataObj.rating = currentValue.vote_average
+
+            return (<MoviePresentation key={index} movieDataObj={movieDataObj}/>)
+        })
+
+        console.log("массив в рендере: " + currentFetchedPopularFilmsArray)
 
         return (
             <div className="msearch__popular-movies">
-                <MoviePresentation />
+                {popularMoviesTemplate}
             </div>
         )
     }
