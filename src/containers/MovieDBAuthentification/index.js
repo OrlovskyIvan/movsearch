@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from "redux";
 import * as movieDBAuthentificationActions from "../../actions/MovieDBAuthentificationActions";
 import axios from 'axios';
+import './style/style.sass'
 
 class MovieDBAuthentification extends Component {
 
@@ -14,144 +15,6 @@ class MovieDBAuthentification extends Component {
             password: "bulochka"
         }
     }
-
-    // componentDidMount = () => {
-
-        /* Берем из стейта апикей */
-        // let apiKey = this.props.movieDBAuthentification.apiKey,
-        //     requestTemplate = this.props.movieDBAuthentification.requestTemplate,
-        //     guestSessionId = '',
-            // today = new Date(),
-            // day = today.getDate().toString().length < 2 ? "0" + today.getDate() : today.getDate(),
-            // month = (today.getMonth()+1).toString().length < 2 ? "0" + (today.getMonth()+1) : (today.getMonth()+1),
-            // year = today.getFullYear(),
-            // requestTodayTopString = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`,
-            // token = '';
-        // console.log(today.getMonth().length);
-        // console.log(requestTodayTopString);
-
-        // fetch(`https://api.themoviedb.org/3/authentication/token/new?api_key=${}`)
-
-        // fetch(`https://api.themoviedb.org/3/authentication/token/new?api_key=${apiKey}`).then(function(response) {
-        //
-        //     if(response.ok) {
-        //         return response.json();
-        //     }
-        //     throw new Error('Network response was not ok.');
-
-        // }).then(function (response) {
-            /* Сохраняем токен */
-            // token = response.request_token;
-            // console.log(token);
-        // }).then(function () {
-            // console.log("формирование запроса с токеном");
-            // let myHeaders = new Headers();
-            // myHeaders.append('Access-Control-Allow-Origin', '*');
-            // myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
-            // // myHeaders.append('Access-Control-Allow-Origin', '*');
-            // console.log("отправился запрос");
-            // var myInit = { method: 'GET',
-            //     headers: myHeaders,
-            //     mode: 'cors',
-            //     cache: 'default' };
-            //
-            // var myRequest = new Request(`https://www.themoviedb.org/authenticate/${token}`);
-
-            /* Авторизируем токен */
-        //     fetch(`https://www.themoviedb.org/authenticate/${token}`).then(function (response) {
-        //         console.log(response);
-        //     })
-        // });
-
-
-
-        /* Делаем запрос */
-        // fetch(`${requestTemplate}authentication/guest_session/new?api_key=${apiKey}`).then(function (response) {
-        //
-        //     console.log(response)
-        //
-        //     if(response.ok) {
-        //         return response.json();
-        //     }
-        //
-        //     throw new Error('Network response was not ok.');
-        //
-        // }).then(function (response) {
-        //
-        //     /* Сохраняем id сессии */
-        //     guestSessionId = response.guest_session_id;
-        //     console.log(guestSessionId);
-        //
-        //         // let myHeaders = new Headers();
-        //         // myHeaders.append('Access-Control-Allow-Origin', 'http://localhost:3000');
-        //         // myHeaders.append('Access-Control-Allow-Origin', '*');
-        //         // myHeaders.append('Access-Control-Allow-Headers');
-        //
-        //         console.log("отправился запрос");
-        //
-        //         let myInit = { method: 'GET',
-        //             headers: {
-        //                 'Access-Control-Allow-Origin': 'http://localhost:3000',
-        //                 'Access-Control-Allow-Origin': '*',
-        //                 'Access-Control-Allow-Headers': true
-        //             },
-        //             mode: 'cors',
-        //             cache: 'default' };
-        //         console.log('запрос отправлен')
-        //         // let myRequest = new Request(requestTodayTopString);
-        //         console.log('запрос отправлен')
-        //
-        //     /* Делаем запрос за сегодняшним топом */
-        //     fetch(requestTodayTopString).then(function (response) {
-        //         console.log('запрос получен')
-        //
-        //         console.log(response);
-        //
-        //         if(response.ok) {
-        //             return response.json();
-        //         }
-        //
-        //         throw new Error('Network response was not ok.');
-        //
-        //     }).then(function (response) {
-        //
-        //         console.log('today top')
-        //         console.log(response)
-        //     })
-        // })
-
-
-        // fetch(`https://api.themoviedb.org/3/authentication/token/new?api_key=${apiKey}`).then(function(response) {
-        //
-        //     if(response.ok) {
-        //         return response.json();
-        //     }
-        //     throw new Error('Network response was not ok.');
-        //
-        // }).then(function (response) {
-        //     /* Сохраняем токен */
-        //    token = response.request_token;
-        // }).then(function () {
-        //     console.log("формирование запроса с токеном");
-        //     let myHeaders = new Headers();
-        //     myHeaders.append('Access-Control-Allow-Origin', '*');
-        //     myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
-        //     // myHeaders.append('Access-Control-Allow-Origin', '*');
-        //     console.log("отправился запрос");
-        //     var myInit = { method: 'GET',
-        //         headers: myHeaders,
-        //         mode: 'cors',
-        //         cache: 'default' };
-        //
-        //     var myRequest = new Request(`https://www.themoviedb.org/authenticate/${token}`);
-        //
-        //     /* Авторизируем токен */
-        //     fetch(myRequest, myInit).then(function (response) {
-        //         console.log(response);
-        //     })
-        // });
-
-    // }
 
     componentDidUpdate = () => {
         // console.log("updated")
@@ -175,12 +38,7 @@ class MovieDBAuthentification extends Component {
         let apiKey = this.props.movieDBAuthentification.apiKey,
             requestTemplate = this.props.movieDBAuthentification.requestTemplate,
             signUser = this.props.movieDBAuthentificationActions.signUser,
-            //'https://api.themoviedb.org/3/'
             sessionId = '',
-            // today = new Date(),
-            // day = today.getDate().toString().length < 2 ? "0" + today.getDate() : today.getDate(),
-            // month = (today.getMonth()+1).toString().length < 2 ? "0" + (today.getMonth()+1) : (today.getMonth()+1),
-            // year = today.getFullYear(),
             requestTodayTopString = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`,
             token = '',
             login = this.state.login,
@@ -269,7 +127,8 @@ class MovieDBAuthentification extends Component {
         /* Проверяем активна ли сессия */
         let tokenAndSessionObj = {},
             isSessionActive = undefined,
-            { requestTemplate, apiKey } = this.props.movieDBAuthentification;
+            { requestTemplate, apiKey } = this.props.movieDBAuthentification,
+            { userSigned } = this.props.movieDBAuthentificationActions;
 
         if (localStorage.getItem('tokenAndSession') !== null) {
 
@@ -280,7 +139,7 @@ class MovieDBAuthentification extends Component {
                 console.log("Запрос аккаунта c sessionId из localStorage прошел успешно")
                 console.log(response);
 
-                isSessionActive = true;
+                userSigned(true);
 
             }).catch(function (error) {
                 // handle error
@@ -288,7 +147,7 @@ class MovieDBAuthentification extends Component {
                 console.log("Запросить аккаунт c sessionId из localStorage не удалось");
                 console.log("Очистить localStorage");
                 window.localStorage.clear();
-
+                userSigned(false);
             });
 
             // tokenAndSessionObj.token = JSON.parse(localStorage.getItem('tokenAndSession')).token;
@@ -299,31 +158,44 @@ class MovieDBAuthentification extends Component {
         // localStorage.setItem('alarmsStash', stateToggleToLocalStorage);
     }
 
-    handleSessionCheck = (e) => {
+    handleQuit = (e) => {
         e.preventDefault();
 
-        console.log("Session check")
+        let { requestTemplate, apiKey, sessionId } = this.props.movieDBAuthentification,
+            { signUser } = this.props.movieDBAuthentificationActions;
 
-        let { requestTemplate, apiKey, token, sessionId, login, password, isUserSigned } = this.props.movieDBAuthentification;
+        axios.delete(`${requestTemplate}authentication/session?api_key=${apiKey}&session_id=${sessionId}`).then(function (response) {
 
-        console.log( requestTemplate, apiKey, token, sessionId, login, password, isUserSigned);
-
-        axios.get(`${requestTemplate}account?api_key=${apiKey}&session_id=${sessionId}`).then(function (response) {
+            /* Если удалось выйти из аккаунта, очищаем localstorage и стейт */
+            let signObject = {}
             // handle success
-            console.log("Запрос аккаунта прошел успешно")
+            console.log("Выход из аккаунта прошел успешно")
             console.log(response);
+            localStorage.clear();
+
+            signObject.token = '';
+            signObject.sessionId = '';
+            signObject.login = '';
+            signObject.password = '';
+            signObject.status = false;
+
+            signUser(signObject);
 
         }).catch(function (error) {
             // handle error
             console.log(error);
-            console.log("Запросить аккаунт не удалось");
+            console.log("Выйти из аккаунта не удалось");
         });
+
+
+
     }
 
     render() {
 
         let login = this.state.login,
-            password = this.state.password;
+            password = this.state.password,
+            { isUserSigned } = this.props.movieDBAuthentification;
             console.log(login + " " + password);
         return (
             <div className="msearch__login">
@@ -331,14 +203,18 @@ class MovieDBAuthentification extends Component {
                 <form action="" className="msearch__form">
 
                     <div className="msearch__inputs-wrap">
-                        <input type="text" className="msearch__login-input" value={login} onChange={this.handleLoginChange}/>
-                        <input type="text" className="msearch__login-password" value={password} onChange={this.handlePasswordChange}/>
+                        <input type="text" className="msearch__login-input" value={login} onChange={this.handleLoginChange} placeholder={"Логин"}/>
+                        <input type="text" className="msearch__login-password" value={password} onChange={this.handlePasswordChange} placeholder={"Пароль"}/>
                     </div>
 
-                    <input type="submit" className="msearch__login-button" onClick={this.handleSubmit}/>
+                    {isUserSigned ? (
+                        <button type="submit" className="msearch__login-button" onClick={this.handleQuit}>Выйти</button>
+                    ) : (
+                        <button type="submit" className="msearch__login-button" onClick={this.handleSubmit}>Войти</button>
+                    )}
+
 
                 </form>
-                <a href="#" onClick={this.handleSessionCheck}>Проверка сессии</a>
             </div>
         )
     }

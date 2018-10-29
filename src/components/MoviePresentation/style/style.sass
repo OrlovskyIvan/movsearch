@@ -1,11 +1,21 @@
-.msearch__movie-presentation
+.msearch__movie-presentation,
+.movie-presentation
   border: 1px solid #d1d1e0
-  margin: 10px
   background-color:  #f0f0f5
+  margin-bottom: 10px
+  cursor: pointer
+.movie-presentation__link-container
+  width: 13.5%
+  min-width: 150px
   display: inline-block
-  width: 250px
   height: auto
   vertical-align: top
+  text-decoration: none
+  color: #000000
+.movie-presentation:hover
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
 .movie-presentation__title
   font-family: 'latobold'
   text-align: center
@@ -34,6 +44,27 @@
   left: 0px
 .movie-presentation__bottom
   font-family: 'latosemibold'
-  font-size: 14px
-  line-height: 19px
+  font-size: 13px
+  line-height: 17px
   padding: 10px
+@media screen and (max-width: 1460px)
+  .movie-presentation__link-container
+    width: 15.8%
+@media screen and (max-width: 1330px)
+  .movie-presentation__link-container
+    width: 19%
+@media screen and (max-width: 1242px)
+  .movie-presentation__link-container
+    width: 18.8%
+@media screen and (max-width: 1130px)
+  .movie-presentation__link-container
+    width: 23.7%
+@media screen and (max-width: 950px)
+  .movie-presentation__link-container
+    width: 31.8%
+@media screen and (max-width: 850px)
+  .movie-presentation__link-container
+    width: 48.2%
+@media screen and (max-width: 460px)
+  .movie-presentation__link-container
+    width: 100%

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import {BrowserRouter, Route, NavLink, Switch} from "react-router-dom"
+import { BrowserRouter, Route, NavLink, Switch } from "react-router-dom"
 import './style/style.sass'
 
 export default class Navigation extends Component {
     render() {
         return (
             <ul className={'msearch__navigation'}>
-                <li className={"msearch__navigation-item"}><NavLink to="/" activeClassName='active'>Home</NavLink></li>
+                <li className={"msearch__navigation-item"}><NavLink to="/" activeClassName='active'>Главная</NavLink></li>
                 <li className={"msearch__navigation-item"}><NavLink to='/login' activeClassName='active'>Войти</NavLink></li>
                 <li className={"msearch__navigation-item"}><NavLink to="/admin" activeClassName='active'>Admin</NavLink></li>
                 <li className={"msearch__navigation-item"}><NavLink to="/about" activeClassName='active'>About</NavLink></li>

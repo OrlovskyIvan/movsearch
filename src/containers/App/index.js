@@ -12,6 +12,7 @@ import LoginPage from "../../components/LoginPage"
 import requireAuthentication from '../../containers/AuthenticatedComponent'
 import MovieDBAuthentification from '../../containers/MovieDBAuthentification'
 import Authenticate from '../AuthenticateLink'
+import Movie from '../../components/Movie'
 
 import './css/style.sass'
 import './css/style.css'
@@ -41,6 +42,7 @@ class App extends Component {
                         <Route path="/banlist" component={Banlist}/>
                         <Route path="/list" component={List}/>
                         <Route path='/genre/:genre' component={Genre} />
+                        <Route path='/movies/:movieId' component={Movie} />
                         <Route path="*" component={NotFound}/>
                     </Switch>
                 </div>

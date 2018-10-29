@@ -14,38 +14,51 @@ class Authenticate extends Component {
 
     }
 
-    componentDidMount = () => {
+    checkIsSessionWorks = () => {
 
-        console.log("Компонент Authenticate смонтирован")
-        /* Проверяем активна ли сессия */
         let tokenAndSessionObj = {},
-            isSessionActive = undefined,
             { requestTemplate, apiKey } = this.props.movieDBAuthentification,
-            { setAuthenticateLinkInfo } = this.props.authenticateLinkActions
+            { setAuthenticateLinkInfo } = this.props.authenticateLinkActions,
+            { userSigned } = this.props.movieDBAuthentificationActions,
+            url = `${requestTemplate}account?api_key=${apiKey}&session_id=${tokenAndSessionObj.sessionId}`
+
+        console.log(localStorage.getItem('tokenAndSession'))
 
         if (localStorage.getItem('tokenAndSession') !== null) {
 
             tokenAndSessionObj = JSON.parse(localStorage.getItem('tokenAndSession'));
             console.log("Объект из локалсторэж: " + tokenAndSessionObj)
-            axios.get(`${requestTemplate}account?api_key=${apiKey}&session_id=${tokenAndSessionObj.sessionId}`).then(function (response) {
+
+            axios.get(url).then(function (response) {
                 // handle success
                 console.log("Запрос аккаунта c sessionId из localStorage прошел успешно")
                 console.log(response);
 
-                isSessionActive = true;
-                setAuthenticateLinkInfo(response.data.username, response.data.id)
+                setAuthenticateLinkInfo(response.data.username, response.data.id, true);
             }).catch(function (error) {
                 // handle error
                 console.log(error);
                 console.log("Запросить аккаунт c sessionId из localStorage не удалось");
                 console.log("Очистить localStorage");
-                window.localStorage.clear();
-
+                localStorage.clear();
+                // userSigned(false);
             });
 
-            // tokenAndSessionObj.token = JSON.parse(localStorage.getItem('tokenAndSession')).token;
-            // tokenAndSessionObj.sessionId = JSON.parse(localStorage.getItem('tokenAndSession')).sessionId;
         }
+
+    }
+
+    componentDidMount = () => {
+
+        console.log("Компонент Authenticate смонтирован")
+        /* Проверяем активна ли сессия */
+
+        this.checkIsSessionWorks();
+    }
+
+    componentDidUpdate = () => {
+        console.log("Обновился authenticate")
+        this.checkIsSessionWorks();
     }
 
     render() {
@@ -65,16 +78,14 @@ class Authenticate extends Component {
 
 function mapStateToProps(state) {
     return {
-        movieDBAuthentification: state.movieDBAuthentification,
-        authenticateLink: state.authenticateLink
+        movieDBAuthentification: state.movieDBAuthentification
     }
 }
 
 function mapDispatchToProps(dispatch) {
 
     return {
-        movieDBAuthentificationActions: bindActionCreators(movieDBAuthentificationActions, dispatch),
-        authenticateLinkActions: bindActionCreators(authenticateLinkActions, dispatch)
+        movieDBAuthentificationActions: bindActionCreators(movieDBAuthentificationActions, dispatch)
     }
 
 }

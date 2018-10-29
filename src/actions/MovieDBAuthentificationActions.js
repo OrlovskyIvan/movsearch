@@ -7,12 +7,12 @@ import { AUTH_SUCCESS_TOKEN, AUTH_SUCCESS_SESSION, AUTH_SUCCESS_LOGIN, AUTH_SUCC
 //     }
 // }
 //
-// export function userSigned(bool) {
-//     return {
-//         type: AUTH_SUCCESS,
-//         payload: bool
-//     }
-// }
+export function userSigned(bool) {
+    return {
+        type: AUTH_SUCCESS_STATUS,
+        payload: bool
+    }
+}
 
 export const signUser = (dataObj) => {
 
