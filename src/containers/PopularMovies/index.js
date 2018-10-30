@@ -7,10 +7,10 @@ import * as movieDBAuthentificationActions from "../../actions/MovieDBAuthentifi
 import * as PopularMoviesActions from "../../actions/PopularMoviesActions";
 import * as FetchingDataActions from "../../actions/FetchingDataActions"
 import MoviePresentation from "../../components/MoviePresentation";
+import Loading from "../../components/Loading";
 import Masonry from 'react-masonry-component';
 
 import './style/style.sass'
-import './style/loader.scss'
 
 class PopularMovies extends Component {
 
@@ -84,15 +84,7 @@ class PopularMovies extends Component {
             <div className="msearch__popular-movies-container">
                 <h2 className="msearch__popular-movies-title">Популярные фильмы: </h2>
                 {fetchingDataStatus ?
-                    (<div className="msearch__popular-movies-loading-container">
-                        <div className="msearch__popular-movies-loading-inner">
-                            <div className="msearch__popular-movies-loading-item"></div>
-                            <div className="msearch__popular-movies-loading-item"></div>
-                            <div className="msearch__popular-movies-loading-item"></div>
-                            <div className="msearch__popular-movies-loading-item"></div>
-                            <div className="msearch__popular-movies-loading-item"></div>
-                        </div>
-                    </div>) :
+                    (<Loading/>) :
                     (<Masonry
                         className={'msearch__popular-movies'} // default ''
                         elementType={'ul'} // default 'div'

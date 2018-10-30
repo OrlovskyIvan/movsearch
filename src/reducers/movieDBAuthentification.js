@@ -5,6 +5,8 @@ import { AUTH_SUCCESS_TOKEN, AUTH_SUCCESS_SESSION, AUTH_SUCCESS_LOGIN, AUTH_SUCC
 const initialState = {
     apiKey: '32e420ab16653556d7c0930d76c7a59a',
     requestTemplate: 'https://api.themoviedb.org/3/',
+    username: "",
+    iD: "",
     token: '',
     sessionId: '',
     login: '',

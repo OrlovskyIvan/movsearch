@@ -18,6 +18,12 @@ const payloadFetchState = (status, data) => {
 
 }
 
+export const clearFetchedData = (perem) => {
+    return {
+        type: CLEAR_FETCHED_DATA,
+        payload: perem
+    }
+}
 // const payloadFetchState = (state) => {
 //     return {
 //         type: FETCHING_DATA,
@@ -74,9 +80,3 @@ export const fetchDataRequest = (url) => {
 
 }
 
-export const clearFetchedData = (perem) => {
-    return {
-        type: CLEAR_FETCHED_DATA,
-        payload: perem
-    }
-}

@@ -4,6 +4,7 @@ import movieDBAuthentification from './movieDBAuthentification'
 import authenticateLink from './authenticateLink'
 import popularMovies from './popularMovies'
 import fetchData from './fetchData'
+import movie from './movie'
 // import popup from './popup'
 
 
@@ -12,6 +13,7 @@ export default combineReducers({
     movieDBAuthentification,
     authenticateLink,
     popularMovies,
-    fetchData
+    fetchData,
+    movie
     // popup
 })

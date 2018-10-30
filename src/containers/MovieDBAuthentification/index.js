@@ -93,10 +93,10 @@ class MovieDBAuthentification extends Component {
                             tokenAndSession.token = token;
                             tokenAndSession.sessionId = sessionId;
 
-                            signUser(signObject);
-
                             let tokenAndSessionString = JSON.stringify(tokenAndSession);
                             localStorage.setItem('tokenAndSession', tokenAndSessionString);
+
+                            signUser(signObject);
 
                         }).catch(function (error) {
                             console.log(error);
@@ -119,8 +119,6 @@ class MovieDBAuthentification extends Component {
         authentificateUser();
 
     }
-
-
 
     componentDidMount = () => {
         console.log("Компонент смонтирован")
@@ -203,8 +201,8 @@ class MovieDBAuthentification extends Component {
                 <form action="" className="msearch__form">
 
                     <div className="msearch__inputs-wrap">
-                        <input type="text" className="msearch__login-input" value={login} onChange={this.handleLoginChange} placeholder={"Логин"}/>
-                        <input type="text" className="msearch__login-password" value={password} onChange={this.handlePasswordChange} placeholder={"Пароль"}/>
+                        <input type="text" className="msearch__login-input" value={login} onChange={this.handleLoginChange} placeholder={"Логин"} disabled={isUserSigned}/>
+                        <input type="text" className="msearch__login-password" value={password} onChange={this.handlePasswordChange} placeholder={"Пароль"} disabled={isUserSigned}/>
                     </div>
 
                     {isUserSigned ? (

@@ -18,13 +18,9 @@ export default class MoviePresentation extends Component {
 
         const movieDataObj = this.props.movieDataObj;
 
-        /* movieDataObj.id = currentValue.id
-            movieDataObj.title = currentValue.original_title
-            movieDataObj.posterUrl = `${basePosterUrl}${currentValue.poster_path}`
-            movieDataObj.genres_id = currentValue.genre_ids
-            movieDataObj.caption = currentValue.overview
-            movieDataObj.rating = currentValue.vote_average
-*/
+        if (movieDataObj.caption.length < 1) {
+            movieDataObj.caption = "Описание отсутствует";
+        }
 
         return (
             <Link to={`/movies/${movieDataObj.id}`} className={"movie-presentation__link-container"}>

@@ -14,11 +14,11 @@ export const setAuthenticateLinkInfo = (name, id, bool) => {
             type: SET_USER_ID,
             payload: id
         });
-
-        dispatch({
-            type: AUTH_SUCCESS_STATUS,
-            payload: bool
-        })
+    //
+    //     dispatch({
+    //         type: AUTH_SUCCESS_STATUS,
+    //         payload: bool
+    //     })
     }
 
 }
