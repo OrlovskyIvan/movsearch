@@ -2,7 +2,7 @@ import {FETCHING_DATA, FETCHED_DATA, CLEAR_FETCHED_DATA} from '../constants/Fetc
 
 const initialState = {
     fetchingDataStatus: false,
-    fetchedData: null
+    fetchedData: {}
 }
 
 export default function fetchData(state = initialState, action) {

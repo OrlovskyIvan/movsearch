@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import axios from 'axios';
 import fetchData from "../FetchData";
 import * as movieDBAuthentificationActions from "../../actions/MovieDBAuthentificationActions";
 import * as PopularMoviesActions from "../../actions/PopularMoviesActions";

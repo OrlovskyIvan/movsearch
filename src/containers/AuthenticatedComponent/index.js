@@ -18,18 +18,18 @@ export default function requireAuthentication(Component) {
         }
 
         componentWillMount() {
-            this.checkAuth(this.props.user);
+            this.checkAuth(this.props.authenticateLink);
         }
 
         componentWillReceiveProps(nextProps) {
-            this.checkAuth(nextProps.user);
+            this.checkAuth(nextProps.authenticateLink);
         }
 
-        checkAuth(user) {
+        checkAuth(authenticateLink) {
 
             let self = this;
 
-            if (!user.isAuthenticated) {
+            if (!authenticateLink.iD) {
                 this.props.dispatch({
                     type: ROUTING,
                     payload: {
@@ -46,7 +46,7 @@ export default function requireAuthentication(Component) {
         render() {
             return (
                 <div>
-                    {this.props.user.isAuthenticated === true
+                    {this.props.authenticateLink.iD
                         ? <Component {...this.props} />
                         : null
                     }
@@ -57,7 +57,7 @@ export default function requireAuthentication(Component) {
 
     function mapStateToProps(state) {
         return {
-            user: state.user
+            authenticateLink: state.authenticateLink
         }
     }
 

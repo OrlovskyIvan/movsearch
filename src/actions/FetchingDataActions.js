@@ -1,4 +1,4 @@
-import { FETCHING_DATA, FETCHED_DATA, CLEAR_FETCHED_DATA } from '../constants/FetchData'
+import { FETCHING_DATA, FETCHED_DATA, CLEAR_FETCHED_DATA, CHANGE_FETCH_STATUS } from '../constants/FetchData'
 import axios from "axios/index";
 
 
@@ -16,6 +16,13 @@ const payloadFetchState = (status, data) => {
         })
     }
 
+}
+
+export const changeFetchStatus = (status) => {
+    return {
+        type: CHANGE_FETCH_STATUS,
+        payload: status
+    }
 }
 
 export const clearFetchedData = (perem) => {
@@ -60,7 +67,7 @@ const fetchDataFunc = (url) => {
             console.log(error);
             console.log("Запрос данных не удался");
 
-            dispatch(payloadFetchState(false, null))
+            dispatch(payloadFetchState(false, {}))
         });
     }
 
