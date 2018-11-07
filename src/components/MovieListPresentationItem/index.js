@@ -16,6 +16,11 @@ export default function MovieListPresentationItem(props) {
                     Рейтинг: { ( props.vote * 10 ) }%
                 </div>
 
+                { props.rating ? (
+                    <div className="movie-list-presentation-myrate">Моя оценка: {props.rating}</div>
+                ) : ("")
+
+                }
             </div>
         </Link>
     )

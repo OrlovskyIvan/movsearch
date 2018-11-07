@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import axios from "axios/index";
+import arraySort from "array-sort";
 import Movie from "../../components/Movie";
 import Loading from "../../components/Loading";
 import MovieListPresentationItem from "../../components/MovieListPresentationItem";
@@ -23,7 +24,9 @@ class Profile extends Component {
             ],
             curUrlNumberToRequest: 0,
             isFavouriteOpened: false,
-            isRatedOpened: false
+            isRatedOpened: false,
+            sortedByRateReverseOrder: true,
+            sortedByRatingReverseOrder: true
         }
     }
 
@@ -107,6 +110,53 @@ class Profile extends Component {
 
         }
     }
+
+    handleSortFav = (e) => {
+
+        /* Сортировка массива оцененных фильмов */
+        /* Сохраняем массив объекта профайл */
+        let { profileDataMass } = this.props.profile,
+            { saveProfileData } = this.props.profileActions,
+            /* Сортировка либо от меньшего к большему, либо наоборот */
+            sortedByRateReverseOrder = this.state.sortedByRateReverseOrder,
+            sortedByRatingReverseOrder = this.state.sortedByRatingReverseOrder,
+            targetClassName = e.target.className,
+            sortedRatedMoviesMassByMyRate = [],
+            /* Копируем массив оценненых фильмов */
+            ratedMoviesObj = profileDataMass[3],
+            /* Копируем массив объекта профайл */
+            newProfileDataMass = profileDataMass;
+
+            /* В зависимости от нажатой кнопки сортировки выбриаем последовательность */
+            switch (targetClassName) {
+                case "profile__lists-rating-sort-by-myrate":
+
+                    /* Сортируем массив и сохраняем в объект */
+                    ratedMoviesObj.results = arraySort( ratedMoviesObj.results, 'rating', { reverse: !sortedByRateReverseOrder } )
+                    /* Сохраняем объект в новый массив объектов */
+                    newProfileDataMass[3] = ratedMoviesObj
+                    saveProfileData(newProfileDataMass);
+                    /* Меняем стейт сортировки */
+                    this.setState({ sortedByRateReverseOrder: !sortedByRateReverseOrder });
+                    break;
+
+                case "profile__lists-rating-sort-by-rating":
+
+                    /* Сортируем массив и сохраняем в объект */
+                    ratedMoviesObj.results = arraySort( ratedMoviesObj.results, 'vote_average', { reverse: !sortedByRatingReverseOrder } )
+                    /* Сохраняем объект в новый массив объектов */
+                    newProfileDataMass[3] = ratedMoviesObj
+                    saveProfileData(newProfileDataMass);
+                    /* Меняем стейт сортировки */
+                    this.setState({ sortedByRatingReverseOrder: !sortedByRatingReverseOrder });
+                    break;
+                default:
+                    break;
+            }
+
+
+    }
+
 /*
 * 0: Object { id: 8084845, iso_639_1: "ru", iso_3166_1: "RU", … }
 1: Object {  }
@@ -245,7 +295,7 @@ length: 4
 
             /* Формирование шаблона с оцененными фильмами */
             ratedObj = ratedObj.results.map((currentItem) => {
-                return (<MovieListPresentationItem id={currentItem.id} title={currentItem.title} vote={currentItem.vote_average}/>)
+                return (<MovieListPresentationItem id={currentItem.id} title={currentItem.title} vote={currentItem.vote_average} rating={currentItem.rating}/>)
             })
         }
 
@@ -292,10 +342,10 @@ length: 4
                             <h3 className="profile__lists-title">Оцененные фильмы: </h3>
 
                             <div className="profile__lists-rating-sort">
-                                <div className="profile__lists-rating-sort-by-myrate">Сортировать по оценке </div>
-                                <div className="profile__lists-rating-sort-by-rating">Сортировать по рейтингу </div>
+                                <div className="profile__lists-rating-sort-by-myrate" onClick={this.handleSortFav}>Сортировать по оценке </div>
+                                <div className="profile__lists-rating-sort-by-rating" onClick={this.handleSortFav}>Сортировать по рейтингу </div>
                             </div>
-                            <div className="profile__lists-container profile__lists-fav" onClick={this.handleFavClick}>
+                            <div className="profile__lists-container profile__lists-fav" >
                                 <div className="profile__lists-fav-inner">
                                     { ratedObj }
                                 </div>
