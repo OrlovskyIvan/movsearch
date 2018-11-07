@@ -1,0 +1,33 @@
+.movie-list-presentation
+  display: block
+  border: 1px solid #d1d1e0
+  cursor: pointer
+  padding: 5px
+  position: relative
+  margin-bottom: 5px
+.movie-list-presentation:last-child
+  margin-bottom: 0px
+.movie-list-presentation__decor
+  position: absolute
+  top: 0px
+  right: 0px
+  background: url('../img/ico-expandless.png')
+  background-size: 20px 20px
+  width: 22px
+  height: 22px
+  border: 1px solid #d1d1e0
+  background-color: #f0f0f5
+.movie-list-presentation__movies
+  display: none
+.movie-list-presentation--opened .movie-list-presentation__decor
+  background: url('../img/ico-expandmore.png')
+  background-size: 20px 20px
+.movie-list-presentation--opened .movie-list-presentation__movies
+  display: block
+.movie-list-presentation__decor:hover
+  background-color: transparent
+.movie-list-presentation__header
+  position: relative
+.movie-list-presentation__movies
+  padding-top: 5px
+  padding-bottom: 5px

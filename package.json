@@ -108,6 +108,7 @@
     ]
   },
   "devDependencies": {
+    "array-sort": "^1.0.0",
     "axios": "^0.18.0",
     "masonry-layout": "^4.2.2",
     "node-sass": "^4.9.4",

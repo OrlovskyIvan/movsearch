@@ -4,7 +4,8 @@ import {connect} from "react-redux";
 import axios from "axios/index";
 import Movie from "../../components/Movie";
 import Loading from "../../components/Loading";
-import MovieListPresentation from "../../components/MovieListPresentation";
+import MovieListPresentationItem from "../../components/MovieListPresentationItem";
+import MovieListPresentation from "../MovieListPresentation";
 import * as movieDBAuthentificationActions from "../../actions/MovieDBAuthentificationActions";
 import * as PopularMoviesActions from "../../actions/PopularMoviesActions";
 import * as FetchingDataActions from "../../actions/FetchingDataActions";
@@ -20,7 +21,9 @@ class Profile extends Component {
             urlMassToRequest: [
 
             ],
-            curUrlNumberToRequest: 0
+            curUrlNumberToRequest: 0,
+            isFavouriteOpened: false,
+            isRatedOpened: false
         }
     }
 
@@ -67,7 +70,9 @@ class Profile extends Component {
             { fetchedData, fetchingDataStatus } = this.props.fetchData,
             urlMass = this.state.urlMassToRequest,
             curUrlNumberToRequest = this.state.curUrlNumberToRequest,
-            urlMassLength = this.state.urlMassToRequest.length;
+            urlMassLength = this.state.urlMassToRequest.length,
+            isFavouriteOpened = this.state.isFavouriteOpened,
+            isRatedOpened = this.state.isRatedOpened;
 
         console.log(this.props.profile)
         console.log(this.props.fetchData)
@@ -200,43 +205,103 @@ length: 4
         console.log("Компонет профайл отрендерился")
 
         let { fetchingDataStatus } = this.props.fetchData,
-            { fetchingComplete, profileDataMass } = this.props.profile;
+            { fetchingComplete, profileDataMass } = this.props.profile,
+            profileObj = {},
+            listsObj = {},
+            favouriteObj = {},
+            ratedObj = {},
+            /* Шаблон с листами */
+            listsTemplate = [],
+            /* Шаблон с любимыми фильмами */
+            favouriteTemplate = [];
+
         console.log(profileDataMass)
         console.log("закончено ли получение данных")
         console.log(fetchingComplete)
+
         if (fetchingComplete) {
             /* Объект с данными профайла */
-            let profileObj = profileDataMass[0],
-                /* Объект с данными листов */
-                listsObj = profileDataMass[1],
-                /* Объект с данными любимых фильмов */
-                favouriteObj = profileDataMass[2],
-                /* Объект с оцененными фильмами */
-                ratedObj = profileDataMass[3],
-                /* Шаблон с листами */
-                listsTemplate = [];
+            profileObj = profileDataMass[0]
+            /* Объект с данными листов */
+            listsObj = profileDataMass[1]
+            /* Объект с данными любимых фильмов */
+            favouriteObj = profileDataMass[2]
+            /* Объект с оцененными фильмами */
+            ratedObj = profileDataMass[3]
+
             console.log(listsObj)
+            console.log("Любимые фильмы")
+            console.log(favouriteObj)
+
             /* Формирование шаблона с листами */
             listsTemplate = listsObj.results.map((currentItem) => {
-                return (<MovieListPresentation listId={currentItem.id} name={currentItem.name}/>)
+                return (<MovieListPresentation listId={currentItem.id} name={currentItem.name} itemCount={currentItem.item_count}/>)
+            })
+
+            /* Формирование шаблона с любимыми фильмами */
+            favouriteTemplate = favouriteObj.results.map((currentItem) => {
+                return (<MovieListPresentationItem id={currentItem.id} title={currentItem.title} vote={currentItem.vote_average}/>)
+            })
+
+            /* Формирование шаблона с оцененными фильмами */
+            ratedObj = ratedObj.results.map((currentItem) => {
+                return (<MovieListPresentationItem id={currentItem.id} title={currentItem.title} vote={currentItem.vote_average}/>)
             })
         }
 
         console.log("Данные в массиве компонента профайл")
         console.log(profileDataMass)
+        console.log("Данные в объекте profile")
+        console.log(listsObj)
+        console.log("Данные в объекте lists")
+        console.log(profileObj)
+        console.log("Данные в объекте favouriteObj")
+        console.log(favouriteObj)
+        console.log("Данные в объекте ratedObj")
+        console.log(ratedObj)
+
         return (
             <div className="msearch__profile profile">
                 {!fetchingComplete ? (
                     <Loading/>
                 ) : (
                     <div className="profile__main">
-                        <h3 className="profile__title">Пользователь</h3>
+                        <h3 className="profile__title">Мой аккаунт</h3>
 
                         <div className="profile__name">{ profileObj.username }</div>
 
                         <div className="profile__lists">
-                            { listsTemplate }
+                            <h3 className="profile__lists-title">Подборки: </h3>
+
+                            <div className="profile__lists-container">
+                                { listsTemplate }
+                            </div>
                         </div>
+
+                        <div className="profile__lists">
+                            <h3 className="profile__lists-title">Любимые фильмы: </h3>
+
+                            <div className="profile__lists-container profile__lists-fav" onClick={this.handleFavClick}>
+                                <div className="profile__lists-fav-inner">
+                                    { favouriteTemplate }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="profile__lists">
+                            <h3 className="profile__lists-title">Оцененные фильмы: </h3>
+
+                            <div className="profile__lists-rating-sort">
+                                <div className="profile__lists-rating-sort-by-myrate">Сортировать по оценке </div>
+                                <div className="profile__lists-rating-sort-by-rating">Сортировать по рейтингу </div>
+                            </div>
+                            <div className="profile__lists-container profile__lists-fav" onClick={this.handleFavClick}>
+                                <div className="profile__lists-fav-inner">
+                                    { ratedObj }
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 )}
             </div>
