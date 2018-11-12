@@ -5,7 +5,7 @@ import './style/style.sass'
 export default function MovieListPresentationItem(props) {
 
     return (
-        <Link to={`/movies/${props.id}`} className={"movie-presentation__link-container"}>
+        <Link to={`/movies/${props.id}`} className={"movie-list-presentation__link-container"}>
             <div className="movie-list-presentation-movie">
 
                 <div className="movie-list-presentation-movie-name">

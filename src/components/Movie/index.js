@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {bindActionCreators} from "redux";
+import { bindActionCreators } from "redux";
 import Loading from "../../components/Loading"
+import AddMovieToList from "../../containers/AddMovieToList"
 import RatingPresentation from "../RatingPresentation";
 import * as FetchingDataActions from "../../actions/FetchingDataActions";
 import * as MovieActions from "../../actions/MovieActions";
@@ -97,7 +98,9 @@ class Movie extends Component {
 
     render() {
 
-        let { movieDataObj } = this.props.movie,
+        let match = this.props.match,
+            movieId = match.params.movieId,
+            { movieDataObj } = this.props.movie,
             { fetchingDataStatus } = this.props.fetchData,
             { basePosterUrl } = this.props.popularMovies,
             genresTemplate = [],
@@ -165,6 +168,15 @@ class Movie extends Component {
                                 <div className="msearch__movie-overview-title">Описание:</div>
                                 <p className="msearch__movie-overview-caption">{movieDataObj.overview}</p>
                             </div>
+
+                            <div className="msearch__movie-buttons">
+
+                                <AddMovieToList movieId={movieId}/>
+
+                            </div>
+
+
+
 
                             <div className="msearch__movie-rating">
                                 <RatingPresentation rating={movieDataObj.vote_average} sizeObj={sizeObj} />
