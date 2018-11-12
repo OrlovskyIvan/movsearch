@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Manager, Reference, Popper } from 'react-popper';
+import axios from "axios";
 import Transition from 'react-transition-group/Transition'
 import "./style/style.sass"
+import {bindActionCreators} from "redux";
+import * as FetchingDataActions from "../../actions/FetchingDataActions";
+import * as ProfileActions from "../../actions/ProfileActions";
 
 const defaultStyle = {
-    transition: `opacity 1000ms ease-in-out`,
+    transition: `opacity 500ms ease-in-out`,
     opacity: 0,
 }
 
@@ -14,15 +18,61 @@ const transitionStyles = {
     entered:  { opacity: 1 },
 };
 
-export default class AddMovieToList extends Component {
+class AddMovieToList extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
             isPopperOpened: false,
-            duration: 1000
+            duration: 1000,
+            listsMass: [],
+            selectedListId: undefined
         }
+
+    }
+
+    componentDidMount = () => {
+
+        let { iD } = this.props.authenticateLink,
+            { fetchDataRequest } = this.props.fetchingDataActions,
+            { apiKey, requestTemplate } = this.props.movieDBAuthentification,
+            { saveProfileData } = this.props.profileActions,
+            tokenAndSessionObj = JSON.parse(localStorage.getItem('tokenAndSession')),
+            /* Запрос созданных листов */
+            listsUrl = `${requestTemplate}account/${iD}/lists?api_key=${apiKey}&session_id=${tokenAndSessionObj.sessionId}&language=ru&page=1`,
+            /* Запрос любимых фильмов */
+            favouriteUrl = `${requestTemplate}account/${iD}/favorite/movies?api_key=${apiKey}&language=ru&session_id=${tokenAndSessionObj.sessionId}&sort_by=created_at.asc&page=1`,
+            listsMass = [];
+
+        console.log("Запрос урлов -------------------------");
+
+        Promise.all([
+            axios.get(listsUrl),
+            axios.get(favouriteUrl)
+        ]).then(([listsUrlRes, favouriteUrlRes]) => {
+
+            console.log("Запрос удался");
+            console.log(listsUrlRes)
+            console.log(favouriteUrlRes)
+
+            listsMass = listsUrlRes.data.results.map((currentItem) => {
+                console.log(currentItem)
+                let obj = {};
+
+                obj.id = currentItem.id;
+                obj.name = currentItem.name;
+
+                return obj;
+            })
+
+            this.setState({ listsMass: listsMass })
+
+        }).catch(function (error) {
+            console.log(error)
+
+            this.setState({ listsMass: [] })
+        });
 
     }
 
@@ -32,17 +82,59 @@ export default class AddMovieToList extends Component {
             isPopperOpened: !this.state.isPopperOpened
         })
 
+    }
 
+    handleSelectList = (e) => {
+
+        console.log(e.target.value)
+
+        this.setState({ selectedListId: e.target.value })
+    }
+
+    onListAdd = () => {
+        let selectedListId = this.state.selectedListId,
+            { apiKey, requestTemplate } = this.props.movieDBAuthentification,
+            tokenAndSessionObj = JSON.parse(localStorage.getItem('tokenAndSession')),
+            movieId = this.props.movieId,
+            url = `${requestTemplate}list/${selectedListId}/add_item?api_key=${apiKey}&session_id=${tokenAndSessionObj.sessionId}&media_id=${movieId}`;
+
+        console.log("строка")
+        console.log(url)
+        axios.post(url).then((response) => {
+            console.log("фильм добавлен")
+            console.log(response)
+        }).catch((error) => {
+            console.log("ошибка")
+            console.log(error)
+        })
 
     }
 
     render() {
 
+        console.log("Смонтирован компонент addmovietolist -----------------")
+
         let isPopperOpened = this.state.isPopperOpened,
-            duration = this.state.duration;
+            duration = this.state.duration,
+            listsMass = this.state.listsMass,
+            optionsTemplate = [],
+            isSelectDisabled = true;
+
+        console.log("Список листов")
+        console.log(listsMass)
+
+        if ( listsMass.length > 0 ) {
+
+            optionsTemplate = listsMass.map((currentItem) => {
+                return (<option value={currentItem.id}>{currentItem.name}</option>)
+            })
+
+            isSelectDisabled = false;
+        }
 
         console.log("handleAddButtonClick")
         console.log(isPopperOpened)
+
         return(
 
             <div className="msearch__movie-add-container">
@@ -50,11 +142,19 @@ export default class AddMovieToList extends Component {
 
                 <Transition in={isPopperOpened} timeout={duration}>
                     {(state) => (
-                    <div className="msearch__movie-add-popper" style={{
-                        ...defaultStyle,
-                        ...transitionStyles[state]
-                    }}>
-                        Список листов {state.isPopperOpened}
+                        <div className="msearch__movie-add-popper" style={{
+                            ...defaultStyle,
+                            ...transitionStyles[state]
+                        }}>
+                            <h3 className="msearch__movie-add-title">Добавить фильм в:</h3>
+
+                            <select disabled={isSelectDisabled} className={"msearch__movie-add-select"} onChange={this.handleSelectList}>
+                                {optionsTemplate}
+                            </select>
+
+                            <div className="msearch__movie-add-status"></div>
+
+                            <div className="msearch__movie-add-button" onClick={this.onListAdd}>Ок</div>
                         </div>
                     )}
                 </Transition>
@@ -65,3 +165,26 @@ export default class AddMovieToList extends Component {
     }
 
 }
+
+
+function mapStateToProps(state) {
+
+    return {
+        authenticateLink: state.authenticateLink,
+        fetchData: state.fetchData,
+        movieDBAuthentification: state.movieDBAuthentification,
+        profile: state.profile
+    }
+
+}
+
+function mapDispatchToProps(dispatch) {
+
+    return {
+        fetchingDataActions: bindActionCreators(FetchingDataActions, dispatch),
+        profileActions: bindActionCreators(ProfileActions, dispatch)
+    }
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddMovieToList)

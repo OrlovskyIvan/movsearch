@@ -99,6 +99,7 @@ class Movie extends Component {
     render() {
 
         let match = this.props.match,
+            username = this.props.authenticateLink,
             movieId = match.params.movieId,
             { movieDataObj } = this.props.movie,
             { fetchingDataStatus } = this.props.fetchData,
@@ -171,12 +172,13 @@ class Movie extends Component {
 
                             <div className="msearch__movie-buttons">
 
-                                <AddMovieToList movieId={movieId}/>
+                                { username ? (
+                                    <AddMovieToList movieId={movieId}/>
+                                ) : ("Войдите, чтобы добавить фильм в список.")
+
+                                }
 
                             </div>
-
-
-
 
                             <div className="msearch__movie-rating">
                                 <RatingPresentation rating={movieDataObj.vote_average} sizeObj={sizeObj} />
@@ -196,7 +198,8 @@ function mapStateToProps(state) {
         fetchData: state.fetchData,
         movieDBAuthentification: state.movieDBAuthentification,
         movie: state.movie,
-        popularMovies: state.popularMovies
+        popularMovies: state.popularMovies,
+        authenticateLink: state.authenticateLink
     }
 }
 
