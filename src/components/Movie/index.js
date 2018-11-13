@@ -99,7 +99,7 @@ class Movie extends Component {
     render() {
 
         let match = this.props.match,
-            username = this.props.authenticateLink,
+            { username } = this.props.authenticateLink,
             movieId = match.params.movieId,
             { movieDataObj } = this.props.movie,
             { fetchingDataStatus } = this.props.fetchData,
@@ -136,7 +136,6 @@ class Movie extends Component {
         sizeObj.style = {fontSize: 26}
         sizeObj.x = 50
         sizeObj.y = 59
-
 
         /* Формируем объект с данными фильма */
         console.log(movieDataObj);

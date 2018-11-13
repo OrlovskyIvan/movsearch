@@ -27,7 +27,8 @@ class AddMovieToList extends Component {
             isPopperOpened: false,
             duration: 1000,
             listsMass: [],
-            selectedListId: undefined
+            selectedListId: undefined,
+            movieAddedToList: undefined
         }
 
     }
@@ -66,7 +67,7 @@ class AddMovieToList extends Component {
                 return obj;
             })
 
-            this.setState({ listsMass: listsMass })
+            this.setState({ listsMass: listsMass, selectedListId: listsMass[0].id })
 
         }).catch(function (error) {
             console.log(error)
@@ -101,11 +102,26 @@ class AddMovieToList extends Component {
         console.log("строка")
         console.log(url)
         axios.post(url).then((response) => {
+
             console.log("фильм добавлен")
             console.log(response)
+
+            this.setState({ movieAddedToList: "Фильм добавлен." })
+
+            setTimeout(() => {
+                this.setState({ movieAddedToList: "" })
+            }, 1000)
+
         }).catch((error) => {
             console.log("ошибка")
             console.log(error)
+
+            this.setState({ movieAddedToList: "Ошибка." })
+
+            setTimeout(() => {
+                this.setState({ movieAddedToList: "" })
+            }, 1000)
+
         })
 
     }
@@ -117,6 +133,7 @@ class AddMovieToList extends Component {
         let isPopperOpened = this.state.isPopperOpened,
             duration = this.state.duration,
             listsMass = this.state.listsMass,
+            movieAddedToList = this.state.movieAddedToList,
             optionsTemplate = [],
             isSelectDisabled = true;
 
@@ -152,7 +169,9 @@ class AddMovieToList extends Component {
                                 {optionsTemplate}
                             </select>
 
-                            <div className="msearch__movie-add-status"></div>
+                            <div className="msearch__movie-add-status">
+                                {movieAddedToList}
+                            </div>
 
                             <div className="msearch__movie-add-button" onClick={this.onListAdd}>Ок</div>
                         </div>
