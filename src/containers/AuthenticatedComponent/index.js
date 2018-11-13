@@ -33,7 +33,6 @@ export default function requireAuthentication(Component) {
                 this.props.dispatch({
                     type: ROUTING,
                     payload: {
-                        // method: 'replace',
                         nextUrl: '/login',
                         history: self.history,
                         method: 'replace'

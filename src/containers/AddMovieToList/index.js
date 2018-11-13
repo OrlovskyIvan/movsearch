@@ -36,7 +36,6 @@ class AddMovieToList extends Component {
     componentDidMount = () => {
 
         let { iD } = this.props.authenticateLink,
-            { fetchDataRequest } = this.props.fetchingDataActions,
             { apiKey, requestTemplate } = this.props.movieDBAuthentification,
             { saveProfileData } = this.props.profileActions,
             tokenAndSessionObj = JSON.parse(localStorage.getItem('tokenAndSession')),
@@ -190,9 +189,7 @@ function mapStateToProps(state) {
 
     return {
         authenticateLink: state.authenticateLink,
-        fetchData: state.fetchData,
-        movieDBAuthentification: state.movieDBAuthentification,
-        profile: state.profile
+        movieDBAuthentification: state.movieDBAuthentification
     }
 
 }
@@ -200,7 +197,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 
     return {
-        fetchingDataActions: bindActionCreators(FetchingDataActions, dispatch),
         profileActions: bindActionCreators(ProfileActions, dispatch)
     }
 

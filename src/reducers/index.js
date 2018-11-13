@@ -6,15 +6,17 @@ import popularMovies from './popularMovies'
 import fetchData from './fetchData'
 import movie from './movie'
 import profile from './profile'
+import search from './search'
 // import popup from './popup'
 
 export default combineReducers({
-    // user,
+
     movieDBAuthentification,
     authenticateLink,
     popularMovies,
     fetchData,
     movie,
-    profile
-    // popup
+    profile,
+    search
+
 })

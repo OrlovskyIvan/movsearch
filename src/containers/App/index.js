@@ -14,12 +14,13 @@ import MovieDBAuthentification from '../MovieDBAuthentification'
 import Profile from '../Profile'
 import AuthenticateLink from '../AuthenticateLink'
 import Movie from '../../components/Movie'
+import Search from '../../containers/Search'
+import ShowSearchResult from '../ShowSearchResult'
 
 import './css/style.sass'
 import './css/style.css'
 
 // const history = createBrowserHistory();
-
 
 class App extends Component {
 
@@ -33,11 +34,12 @@ class App extends Component {
                         <AuthenticateLink />
                         <Navigation/>
                     </div>
-
+                    <Route exact path="/" component={Search}/>
                     <Switch>
                         <Route exact path="/" component={PopularMovies}/>
                         <Route path='/login' component={MovieDBAuthentification} />
                         <Route path="/admin" component={requireAuthentication(Profile)} />
+                        <Route path="/ShowSearchResult" component={ShowSearchResult} />
                         {/*<Route path="/about" component={About}/>*/}
                         {/*<Route path="/contacts" component={Contacts}/>*/}
                         <Route path="/banlist" component={Banlist}/>
