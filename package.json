@@ -110,6 +110,8 @@
   "devDependencies": {
     "array-sort": "^1.0.0",
     "axios": "^0.18.0",
+    "heroku": "^7.18.9",
+    "heroku-cli": "^7.0.9",
     "masonry-layout": "^4.2.2",
     "node-sass": "^4.9.4",
     "outy": "^0.1.2",

@@ -11,8 +11,8 @@ class MovieDBAuthentification extends Component {
         super(props);
 
         this.state = {
-            login: "IvanOrlov",
-            password: "bulochka"
+            login: "",
+            password: ""
         }
     }
 
