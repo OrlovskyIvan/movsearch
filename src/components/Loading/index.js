@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './style/style.scss'
 
 export default function Loading(props) {

@@ -13,38 +13,18 @@ const fetchData = (props) => {
     fetchingData(true);
 
     axios.get(url).then(function (response) {
-        // handle success
-        console.log("Запрос популярных фильмов прошел успешно")
-        console.log(response);
-        console.log(response.data.results);
 
+        // handle success
         /* Сохраняем полученные фильмы */
-        // saveFetchedPopularFilms(response.data.results);
         fetchingData(false);
         return response.data;
 
     }).catch(function (error) {
+
         // handle error
         console.log(error);
-        console.log("Запрос популярных фильмов не удался");
-
         fetchingData(false);
         return false;
+
     });
 }
-
-// function mapStateToProps(state) {
-//     return {
-//         fetchData: state.fetchData
-//     }
-// }
-//
-// function mapDispatchToProps(dispatch) {
-//
-//     return {
-//         fetchingDataActions: bindActionCreators(FetchingDataActions, dispatch)
-//     }
-//
-// }
-//
-// export default connect(mapStateToProps, mapDispatchToProps)(fetchData)

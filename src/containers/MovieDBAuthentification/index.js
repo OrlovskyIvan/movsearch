@@ -16,11 +16,6 @@ class MovieDBAuthentification extends Component {
         }
     }
 
-    componentDidUpdate = () => {
-        // console.log("updated")
-        // console.log(this.state)
-    }
-
     handleLoginChange = e => {
         this.setState({ login: e.target.value });
     };
@@ -32,22 +27,16 @@ class MovieDBAuthentification extends Component {
     handleSubmit = (e) => {
 
         e.preventDefault()
-        console.log("some")
 
         /* Берем из стейта апикей */
         let apiKey = this.props.movieDBAuthentification.apiKey,
             requestTemplate = this.props.movieDBAuthentification.requestTemplate,
             signUser = this.props.movieDBAuthentificationActions.signUser,
             sessionId = '',
-            requestTodayTopString = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`,
             token = '',
             login = this.state.login,
             password = this.state.password,
             signObject = {};
-
-        console.log(this.state.login)
-        console.log(this.state.password)
-
 
         const authentificateUser = () => {
 
@@ -55,12 +44,7 @@ class MovieDBAuthentification extends Component {
             axios.get(`${requestTemplate}authentication/token/new?api_key=${apiKey}`)
                 .then(function (response) {
                     // handle success
-                    console.log("Запрос токена прошел успешно")
-                    console.log(response);
                     token = response.data.request_token;
-                    console.log("Токен: " + token);
-
-                    console.log("Регистрация токена")
 
                     /* Регистрация токена */
                     axios.post(`${requestTemplate}authentication/token/validate_with_login?api_key=${apiKey}`, {
@@ -68,8 +52,6 @@ class MovieDBAuthentification extends Component {
                         "password": password,
                         "request_token": token
                     }).then(function (response) {
-                        console.log("Регистрация токена прошла успешно.");
-                        console.log(response);
 
                         /* Запрос id сессии */
                         axios.post(`${requestTemplate}authentication/session/new?api_key=${apiKey}`, {
@@ -78,10 +60,7 @@ class MovieDBAuthentification extends Component {
 
                             let tokenAndSession = {};
 
-                            console.log("Запрос id сессии удался");
-                            console.log(response);
                             sessionId = response.data.session_id;
-                            console.log(sessionId);
 
                             signObject.token = token;
                             signObject.sessionId = sessionId;
@@ -100,19 +79,16 @@ class MovieDBAuthentification extends Component {
 
                         }).catch(function (error) {
                             console.log(error);
-                            console.log("Запрос id сессии не удался");
                         })
 
                     }).catch(function (error) {
                         console.log(error);
-                        console.log("Регистрация токена не удалась.");
                     })
                     /* --------------------*/
                 })
                 .catch(function (error) {
                     // handle error
                     console.log(error);
-                    console.log("Запросить token не удалось");
                 })
         }
 
@@ -121,39 +97,30 @@ class MovieDBAuthentification extends Component {
     }
 
     componentDidMount = () => {
-        console.log("Компонент смонтирован")
+
         /* Проверяем активна ли сессия */
         let tokenAndSessionObj = {},
-            isSessionActive = undefined,
             { requestTemplate, apiKey } = this.props.movieDBAuthentification,
             { userSigned } = this.props.movieDBAuthentificationActions;
 
         if (localStorage.getItem('tokenAndSession') !== null) {
 
             tokenAndSessionObj = JSON.parse(localStorage.getItem('tokenAndSession'));
-            console.log("Объект из локалсторэж: " + tokenAndSessionObj)
-            axios.get(`${requestTemplate}account?api_key=${apiKey}&session_id=${tokenAndSessionObj.sessionId}`).then(function (response) {
-                // handle success
-                console.log("Запрос аккаунта c sessionId из localStorage прошел успешно")
-                console.log(response);
 
+            axios.get(`${requestTemplate}account?api_key=${apiKey}&session_id=${tokenAndSessionObj.sessionId}`).then(function (response) {
+
+                // handle success
                 userSigned(true);
 
             }).catch(function (error) {
                 // handle error
                 console.log(error);
-                console.log("Запросить аккаунт c sessionId из localStorage не удалось");
-                console.log("Очистить localStorage");
                 window.localStorage.clear();
                 userSigned(false);
             });
 
-            // tokenAndSessionObj.token = JSON.parse(localStorage.getItem('tokenAndSession')).token;
-            // tokenAndSessionObj.sessionId = JSON.parse(localStorage.getItem('tokenAndSession')).sessionId;
         }
 
-        // let stateToggleToLocalStorage = JSON.stringify(stateToggle);
-        // localStorage.setItem('alarmsStash', stateToggleToLocalStorage);
     }
 
     handleQuit = (e) => {
@@ -167,8 +134,6 @@ class MovieDBAuthentification extends Component {
             /* Если удалось выйти из аккаунта, очищаем localstorage и стейт */
             let signObject = {}
             // handle success
-            console.log("Выход из аккаунта прошел успешно")
-            console.log(response);
             localStorage.clear();
 
             signObject.token = '';
@@ -182,7 +147,6 @@ class MovieDBAuthentification extends Component {
         }).catch(function (error) {
             // handle error
             console.log(error);
-            console.log("Выйти из аккаунта не удалось");
         });
 
 
@@ -194,7 +158,7 @@ class MovieDBAuthentification extends Component {
         let login = this.state.login,
             password = this.state.password,
             { isUserSigned } = this.props.movieDBAuthentification;
-            console.log(login + " " + password);
+
         return (
             <div className="msearch__login">
 

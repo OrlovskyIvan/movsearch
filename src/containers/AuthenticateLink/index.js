@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import * as movieDBAuthentificationActions from "../../actions/MovieDBAuthentificationActions";
 import * as authenticateLinkActions from "../../actions/AuthenticateLinkActions";
 import axios from 'axios';
-import authenticateLink from "../../reducers/authenticateLink";
 import "./css/style.sass";
 
 class Authenticate extends Component {
@@ -23,32 +22,25 @@ class Authenticate extends Component {
 
         let tokenAndSessionObj = {},
             { requestTemplate, apiKey } = this.props.movieDBAuthentification,
-            { setAuthenticateLinkInfo } = this.props.authenticateLinkActions,
-            { userSigned } = this.props.movieDBAuthentificationActions;
+            { setAuthenticateLinkInfo } = this.props.authenticateLinkActions;
 
-
-        console.log(localStorage.getItem('tokenAndSession'))
 
         if (localStorage.getItem('tokenAndSession') !== null) {
 
             tokenAndSessionObj = JSON.parse(localStorage.getItem('tokenAndSession'));
-            console.log("Объект из локалсторэж: " + tokenAndSessionObj)
-            console.log(tokenAndSessionObj)
 
             axios.get(`${requestTemplate}account?api_key=${apiKey}&session_id=${tokenAndSessionObj.sessionId}`).then(function (response) {
-                // handle success
-                console.log("Запрос аккаунта c sessionId из localStorage прошел успешно")
-                console.log(response);
 
+                // handle success
                 setAuthenticateLinkInfo(response.data.username, response.data.id);
+
             }).catch(function (error) {
+
                 // handle error
                 console.log(error);
-                console.log("Запросить аккаунт c sessionId из localStorage не удалось");
-                console.log("Очистить localStorage");
                 window.localStorage.clear();
                 setAuthenticateLinkInfo('', '');
-                // userSigned(false);
+
             });
 
         }
@@ -57,15 +49,12 @@ class Authenticate extends Component {
 
     componentDidMount = () => {
 
-        console.log("Компонент Authenticate смонтирован")
         /* Проверяем активна ли сессия */
-
         this.checkIsSessionWorks();
+
     }
 
     componentDidUpdate = (prevProps) => {
-
-        console.log("Компонент Authenticate обновился")
 
         /* В случае нажатия на кнопку войти в компоненте логин, проверяем залогинен ли пользователь */
         let { isUserSigned } = this.props.movieDBAuthentification,
@@ -87,7 +76,7 @@ class Authenticate extends Component {
 
     render() {
 
-        let { username, id } = this.props.authenticateLink;
+        let { username } = this.props.authenticateLink;
         return (
                 <div className="msearch__authenticate authenticate">
                     <Link to="/login" className="authenticate-link">

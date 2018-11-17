@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { ROUTING } from "../../constants/Routing"
 import PropTypes from 'prop-types'

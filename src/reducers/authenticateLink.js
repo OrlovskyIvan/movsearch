@@ -1,4 +1,4 @@
-import { SET_USER_NAME, SET_USER_IMG, SET_USER_ID } from '../constants/AuthenticateLink'
+import { SET_USER_NAME, SET_USER_ID } from '../constants/AuthenticateLink'
 
 const initialState = {
     username: "",

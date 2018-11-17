@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Manager, Reference, Popper } from 'react-popper';
 import axios from "axios";
 import Transition from 'react-transition-group/Transition'
 import "./style/style.sass"
 import {bindActionCreators} from "redux";
-import * as FetchingDataActions from "../../actions/FetchingDataActions";
 import * as ProfileActions from "../../actions/ProfileActions";
 
 const defaultStyle = {
@@ -37,7 +35,6 @@ class AddMovieToList extends Component {
 
         let { iD } = this.props.authenticateLink,
             { apiKey, requestTemplate } = this.props.movieDBAuthentification,
-            { saveProfileData } = this.props.profileActions,
             tokenAndSessionObj = JSON.parse(localStorage.getItem('tokenAndSession')),
             /* Запрос созданных листов */
             listsUrl = `${requestTemplate}account/${iD}/lists?api_key=${apiKey}&session_id=${tokenAndSessionObj.sessionId}&language=ru&page=1`,
@@ -45,33 +42,30 @@ class AddMovieToList extends Component {
             favouriteUrl = `${requestTemplate}account/${iD}/favorite/movies?api_key=${apiKey}&language=ru&session_id=${tokenAndSessionObj.sessionId}&sort_by=created_at.asc&page=1`,
             listsMass = [];
 
-        console.log("Запрос урлов -------------------------");
-
         Promise.all([
             axios.get(listsUrl),
             axios.get(favouriteUrl)
         ]).then(([listsUrlRes, favouriteUrlRes]) => {
 
-            console.log("Запрос удался");
-            console.log(listsUrlRes)
-            console.log(favouriteUrlRes)
-
             listsMass = listsUrlRes.data.results.map((currentItem) => {
-                console.log(currentItem)
+
                 let obj = {};
 
                 obj.id = currentItem.id;
                 obj.name = currentItem.name;
 
                 return obj;
+
             })
 
             this.setState({ listsMass: listsMass, selectedListId: listsMass[0].id })
 
         }).catch(function (error) {
+
             console.log(error)
 
             this.setState({ listsMass: [] })
+
         });
 
     }
@@ -86,8 +80,6 @@ class AddMovieToList extends Component {
 
     handleSelectList = (e) => {
 
-        console.log(e.target.value)
-
         this.setState({ selectedListId: e.target.value })
     }
 
@@ -98,12 +90,7 @@ class AddMovieToList extends Component {
             movieId = this.props.movieId,
             url = `${requestTemplate}list/${selectedListId}/add_item?api_key=${apiKey}&session_id=${tokenAndSessionObj.sessionId}&media_id=${movieId}`;
 
-        console.log("строка")
-        console.log(url)
         axios.post(url).then((response) => {
-
-            console.log("фильм добавлен")
-            console.log(response)
 
             this.setState({ movieAddedToList: "Фильм добавлен." })
 
@@ -112,7 +99,7 @@ class AddMovieToList extends Component {
             }, 1000)
 
         }).catch((error) => {
-            console.log("ошибка")
+
             console.log(error)
 
             this.setState({ movieAddedToList: "Ошибка." })
@@ -127,17 +114,12 @@ class AddMovieToList extends Component {
 
     render() {
 
-        console.log("Смонтирован компонент addmovietolist -----------------")
-
         let isPopperOpened = this.state.isPopperOpened,
             duration = this.state.duration,
             listsMass = this.state.listsMass,
             movieAddedToList = this.state.movieAddedToList,
             optionsTemplate = [],
             isSelectDisabled = true;
-
-        console.log("Список листов")
-        console.log(listsMass)
 
         if ( listsMass.length > 0 ) {
 
@@ -147,9 +129,6 @@ class AddMovieToList extends Component {
 
             isSelectDisabled = false;
         }
-
-        console.log("handleAddButtonClick")
-        console.log(isPopperOpened)
 
         return(
 

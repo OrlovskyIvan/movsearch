@@ -36,18 +36,19 @@ class Search extends Component {
 
     searchFunc = (url) => {
 
-        let { setSearchingStatus, saveSearchedData, setSearch } = this.props.searchActions;
+        let { setSearchingStatus, setSearch } = this.props.searchActions;
 
         setSearchingStatus(true);
 
         axios.get(url).then((response) => {
 
-            console.log(response)
             setSearch(response.data.results, false)
-        }).catch((error) => {
-            console.log(error)
 
+        }).catch((error) => {
+
+            console.log(error)
             setSearch([], false)
+
         })
 
     }
@@ -88,9 +89,7 @@ class Search extends Component {
 
     render() {
 
-        console.log("SEARCH отрендерился -----------------------------")
-
-        let { searchDataMass, searchingStatus } = this.props.search,
+        let { searchDataMass } = this.props.search,
             isSearchFocused = this.state.isSearchFocused,
             searchDataMassLength = searchDataMass.length,
             elementsToShow = this.state.elementsToShow,
@@ -101,10 +100,6 @@ class Search extends Component {
         if ( currentQueryString.length > 0 ) {
             disabledSearchButton = false
         }
-
-        console.log(searchDataMass)
-        console.log(searchingStatus)
-        console.log(searchDataMassLength)
 
         middleResultsTemplate = searchDataMass.map((currentItem, index) => {
 

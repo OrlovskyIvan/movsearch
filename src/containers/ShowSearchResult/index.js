@@ -2,18 +2,12 @@ import React, { Component } from 'react';
 import {bindActionCreators} from "redux";
 import { connect } from "react-redux";
 import MoviePresentation from "../../components/MoviePresentation";
-import Loading from "../../components/Loading";
 import Masonry from 'react-masonry-component';
 import * as SearchActions from "../../actions/SearchActions";
 import * as FetchingDataActions from "../../actions/FetchingDataActions";
 import './style/style.sass'
 
 class ShowSearchResult extends Component {
-
-    constructor(props) {
-        super(props)
-
-    }
 
     render() {
 

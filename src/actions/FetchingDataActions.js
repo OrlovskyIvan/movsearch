@@ -31,19 +31,6 @@ export const clearFetchedData = (perem) => {
         payload: perem
     }
 }
-// const payloadFetchState = (state) => {
-//     return {
-//         type: FETCHING_DATA,
-//         payload: status
-//     }
-// }
-//
-// const payloadFetchData = (state) => {
-//     return {
-//         type: FETCHED_DATA,
-//         payload: data
-//     }
-// }
 
 const fetchDataFunc = (url) => {
 
@@ -53,21 +40,17 @@ const fetchDataFunc = (url) => {
         dispatch(payloadFetchState(true, null))
 
         axios.get(url).then(function (response) {
-            // handle success
-            console.log("Запрос данных удался")
-            console.log(response);
-            console.log(response.data.results);
 
+            // handle success
             /* Сохраняем полученные данные в стейт */
             dispatch(payloadFetchState(false, response.data))
 
-
         }).catch(function (error) {
+
             // handle error
             console.log(error);
-            console.log("Запрос данных не удался");
-
             dispatch(payloadFetchState(false, {}))
+
         });
     }
 

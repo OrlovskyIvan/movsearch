@@ -11,7 +11,6 @@ export default function profile(state = initialState, action) {
 
         case SAVE_PROFILE_DATA:
 
-            console.log(action.payload)
             let newProfileDataMass = state.profileDataMass;
             newProfileDataMass[action.payload.number] = action.payload.dataObj;
 

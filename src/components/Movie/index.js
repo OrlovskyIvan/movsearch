@@ -6,14 +6,9 @@ import AddMovieToList from "../../containers/AddMovieToList"
 import RatingPresentation from "../RatingPresentation";
 import * as FetchingDataActions from "../../actions/FetchingDataActions";
 import * as MovieActions from "../../actions/MovieActions";
-import fetchData from "../../reducers/fetchData";
 import './style/style.sass'
 
 class Movie extends Component {
-
-    constructor(props) {
-        super(props)
-    }
 
     componentDidMount = () => {
 
@@ -31,70 +26,17 @@ class Movie extends Component {
     componentDidUpdate = (prevProps) => {
 
         /* После того, как компонент обновился */
-        let { fetchDataRequest, clearFetchedData } = this.props.fetchingDataActions,
+        let { clearFetchedData } = this.props.fetchingDataActions,
             { saveMovieData } = this.props.movieActions,
             { fetchedData } = this.props.fetchData;
-        console.log("Movie обновился")
-        console.log(fetchedData)
 
         /* Сохранить данные в стейт компонента и очистить из фетч */
         if ( fetchedData !== null ) {
-            console.log(fetchedData)
             saveMovieData(fetchedData)
             clearFetchedData(null)
         }
 
     }
-//
-// adult: false
-// ​
-// backdrop_path: "/VuukZLgaCrho2Ar8Scl9HtV3yD.jpg"
-// ​
-// belongs_to_collection: null
-// ​
-// budget: 116000000
-// ​
-// genres: Array [ {…} ]
-// ​
-// homepage: "http://www.venom.movie/site/"
-// ​
-// id: 335983
-// ​
-// imdb_id: "tt1270797"
-// ​
-// original_language: "en"
-// ​
-// original_title: "Venom"
-// ​
-// overview: "В центре сюжета — Веном, один из самых известных супергероев вселенной Человека-паука. Это симбиот, разумное существо инопланетного происхождения, которое вселяется в тело журналиста Эдди Брока."
-// ​
-// popularity: 376.076
-// ​
-// poster_path: "/8Gyl0fknqiZeCLm9XitxCXQmEL9.jpg"
-// ​
-// production_companies: Array(4) [ {…}, {…}, {…}, … ]
-// ​
-// production_countries: Array [ {…} ]
-// ​
-// release_date: "2018-10-03"
-// ​
-// revenue: 508400000
-// ​
-// runtime: 112
-// ​
-// spoken_languages: Array [ {…} ]
-// ​
-// status: "Released"
-// ​
-// tagline: "Обними своего внутреннего демона"
-// ​
-// title: "Веном"
-// ​
-// video: false
-// ​
-// vote_average: 6.6
-// ​
-// vote_count: 1723
 
     render() {
 
@@ -138,8 +80,6 @@ class Movie extends Component {
         sizeObj.y = 59
 
         /* Формируем объект с данными фильма */
-        console.log(movieDataObj);
-
 
         return (
             <div className="msearch__movie" style={movieStyle}>
